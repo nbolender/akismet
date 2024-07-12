@@ -16,9 +16,9 @@ class CheckResponse extends MessageResponse
 {
     private const PRO_TIP = 'x-akismet-pro-tip';
 
-    public function isSpam(): bool
+    public function isSpam($ignore_errors=false): bool
     {
-        return 'true' === $this->getContent(true);
+        return 'true' === $this->getContent($ignore_errors);
     }
 
     public function shouldDiscard(): bool
