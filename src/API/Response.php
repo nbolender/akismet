@@ -37,16 +37,18 @@ abstract class Response
         return $this->httpResponse->getHeaders();
     }
 
-    protected function getContent(): string
+    protected function getContent($ignore_errors=false): string
     {
         $headers = $this->getHeaders();
 
-        // Documentation is ambiguous on which of these headers will be filled for errors
-        if (array_key_exists('x-akismet-error', $headers)) {
-            throw new \RuntimeException($headers['x-akismet-error'][0]); // @codeCoverageIgnore
-        } elseif (array_key_exists('x-akismet-alert-msg', $headers)) {
-            throw new \RuntimeException($headers['x-akismet-alert-msg'][0]); // @codeCoverageIgnore
-        }
+		if (!$ignore_errors) {
+			// Documentation is ambiguous on which of these headers will be filled for errors
+			if (array_key_exists('x-akismet-error', $headers)) {
+				throw new \RuntimeException($headers['x-akismet-error'][0]); // @codeCoverageIgnore
+			} elseif (array_key_exists('x-akismet-alert-msg', $headers)) {
+				throw new \RuntimeException($headers['x-akismet-alert-msg'][0]); // @codeCoverageIgnore
+			}
+		}
 
         return $this->httpResponse->getContent();
     }

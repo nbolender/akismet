@@ -18,7 +18,7 @@ class CheckResponse extends MessageResponse
 
     public function isSpam(): bool
     {
-        return 'true' === $this->getContent();
+        return 'true' === $this->getContent(true);
     }
 
     public function shouldDiscard(): bool
